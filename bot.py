@@ -827,14 +827,14 @@ def clean_downloads_directory():
 
 async def fetch_csv_files_from_history(channel):
     
-    # Calculate timestamp for 7 days ago
-    seven_days_ago = datetime.now(timezone.utc) - timedelta(days=1)
-    print(f"Fetching messages after: {seven_days_ago}")
+    # Calculate timestamp for 48 hours ago
+    forty_eight_hours_ago = datetime.now(timezone.utc) - timedelta(hours=48)
+    print(f"Fetching messages after: {forty_eight_hours_ago}")
     
     async for message in channel.history(limit=None):
-        # Stop if message is older than 7 days
-        if message.created_at < seven_days_ago:
-            print(f"Reached message older than 7 days, stopping fetch")
+        # Stop if message is older than 48 hours
+        if message.created_at < forty_eight_hours_ago:
+            print(f"Reached message older than 48 hours, stopping fetch")
             break
             
         if message.attachments:
@@ -845,6 +845,7 @@ async def fetch_csv_files_from_history(channel):
                     await download_file(attachment.url, file_path, channel, message)
 
     print("Finished fetching CSV files")
+
 
 @bot.event
 async def on_message(message):
